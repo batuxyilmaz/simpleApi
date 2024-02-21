@@ -1,4 +1,4 @@
-package com.testprojects;
+package com.testprojects.controller;
 
 import com.testprojects.entity.User;
 import com.testprojects.repository.UserRepository;
