@@ -1,14 +1,14 @@
 pipeline {
     agent any
     tools {
-        jdk 'JDK8'
-        maven '3.9.6'
+        jdk 'jdk'
+        maven '3.8.3'
        
     }
     stages {
         stage("build project") {
             steps {
-               // git 'https://github.com/denizturkmen/SpringBootMysqlCrud.git'
+               // git 'https://github.com/batuxyilmaz/simpleApi.git'
                 echo "Java VERSION"
                 sh 'java -version'
                 echo "Maven VERSION"
