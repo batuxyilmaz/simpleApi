@@ -1,19 +1,23 @@
 pipeline {
     agent any
+    tools {
+        jdk 'jdk'
+        maven '4.0.0'
+       
+    }
     stages {
-        stage('build') {
+        stage("build project") {
             steps {
-              echo 'building the application..'
-            }
-        }
-        stage('test') {
-            steps {
-               echo 'testing the application..'
-            }
-        }
-        stage('deploy') {
-            steps {
-               echo 'deploying the application..'
+               // git 'https://github.com/denizturkmen/SpringBootMysqlCrud.git'
+                echo "Java VERSION"
+                sh 'java -version'
+                echo "Maven VERSION"
+                sh 'mvn -version'
+                echo 'building project...'
+                sh "mvn compile"
+                sh "mvn package"
+                //sh "mvn test"
+                sh "mvn clean install"
             }
         }
     }
