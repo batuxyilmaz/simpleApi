@@ -2,6 +2,8 @@ package com.testprojects.controller;
 
 import com.testprojects.entity.User;
 import com.testprojects.repository.UserRepository;
+import com.testprojects.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,33 +13,28 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
-    public UserController(UserRepository userRepository){
-        this.userRepository=userRepository;
-    }
+
     @GetMapping("/getUser")
     public List<User> getAllUsers(){
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
     @PostMapping("/postUser")
     public User createUser(@RequestBody User newUser){
-        return userRepository.save(newUser);
+        return userService.saveOneUser(newUser);
     }
     @GetMapping("/{userId}")
     public User getUser(@PathVariable Long userId){
-        return userRepository.findById(userId).orElse(null);
+        return userService.getOneUser(userId);
     }
     @PutMapping("/{userId}")
     public User updateUser(@PathVariable Long userId, @RequestBody User newUser){
-        Optional<User> user=userRepository.findById(userId);
-        if(user.isPresent()){
-             User foundUser=user.get();
-             foundUser.setName(newUser.getName());
-            foundUser.setPassword(newUser.getPassword());
-             userRepository.save(foundUser);
-             return foundUser;
-        }else
-            return null ;
+      return userService.updateOneUser(userId,newUser);
+    }
+    @DeleteMapping("/{userId}")
+    public void deleteOneUser(@PathVariable Long userId){
+        userService.deleteById(userId);
     }
 }
