@@ -14,9 +14,8 @@ tools{
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh 'docker build -t simpleapi:0.0.1 .'
-                }
+                       sh 'docker build -t simpleapi:0.0.1 .'
+              
             }
         }
 
@@ -33,5 +32,3 @@ tools{
 
       
         }
-    }
-}
