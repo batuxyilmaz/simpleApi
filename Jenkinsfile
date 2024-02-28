@@ -6,11 +6,11 @@ tools{
     stages {
         stage('Build Maven') {
             steps {
-                checkout scm Git(branches:[[name:'*main']],extansions:[],userRemoteConfigs:[[url:'https://github.com/batuxyilmaz/simpleApi']])
+                checkout scmGit(branches:[[name:'*main']],extansions:[],userRemoteConfigs:[[url:'https://github.com/batuxyilmaz/simpleApi']])
                 sh 'mvn clean install'
             }
         }
-        }
+        
 
         stage('Build Docker Image') {
             steps {
