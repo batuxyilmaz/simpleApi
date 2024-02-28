@@ -11,29 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.image('maven:3.8.2-openjdk-11').inside {
-                        sh 'mvn clean install'
-                    }
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                script {
-                    docker.image('maven:3.8.2-openjdk-11').inside {
-                        sh 'mvn test'
-                    }
-                }
-            }
-        }
-
-        stage('Package') {
-            steps {
-                script {
-                    docker.image('maven:3.8.2-openjdk-11').inside {
-                        sh 'mvn package'
-                    }
+                    sh 'mvn clean install'
                 }
             }
         }
@@ -41,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("simpleapi:latest")
+                    sh 'docker build -t simpleapi .'
                 }
             }
         }
@@ -49,18 +27,20 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('https://hub.docker.com/', 'docker-registry-credentials') {
-                        docker.image("simpleapi:latest").push()
+                    withCredentials([usernamePassword(credentialsId: '	9a9402a7-a913-422d-a023-7d14bbe45009', passwordVariable: 'Desi1234$', usernameVariable: 'batuhan.yilmaz@desi.com.tr')]) {
+                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
                     }
+                    sh 'docker push simpleapi'
                 }
             }
         }
-    }
 
-    post {
-        success {
-            echo 'Pipeline successful! Deploy your application.'
-            // Add deployment steps here
+        stage('Deploy') {
+            steps {
+                script {
+                    // Your deployment steps go here
+                }
+            }
         }
     }
 }
