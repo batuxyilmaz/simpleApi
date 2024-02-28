@@ -38,6 +38,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
+                    echo 'Building Docker Image'
                     // Your deployment steps go here
                 }
             }
