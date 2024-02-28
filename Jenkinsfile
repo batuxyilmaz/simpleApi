@@ -6,7 +6,7 @@ tools{
     stages {
         stage('Build Maven') {
             steps {
-                checkout scmGit(branches:[[name:'*main']],extansions:[],userRemoteConfigs:[[url:'https://github.com/batuxyilmaz/simpleApi']])
+                checkout scmGit(branches:[[name:'*main']],extensions:[],userRemoteConfigs:[[url:'https://github.com/batuxyilmaz/simpleApi']])
                 sh 'mvn clean install'
             }
         }
