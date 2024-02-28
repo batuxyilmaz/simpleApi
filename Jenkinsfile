@@ -15,7 +15,7 @@ tools{
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t simpleapi .'
+                    sh 'docker build -t simpleapi:0.0.1 .'
                 }
             }
         }
@@ -26,7 +26,7 @@ tools{
                     withCredentials([usernamePassword(credentialsId: 'docker_hub_id', passwordVariable: 'password_pass', usernameVariable: 'user_name')]) {
                         sh 'docker login -u batuxyilmaz -p ${password_pass}'
                     }
-                    sh 'docker push batuxyilmaz/simpleapi'
+                    sh 'docker push batuxyilmaz/simpleapi:0.0.1'
                 }
             }
         }
