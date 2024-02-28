@@ -1,19 +1,15 @@
 pipeline {
     agent any
-
+tools{
+    maven 'maven'
+}
     stages {
-        stage('Checkout') {
+        stage('Build Maven') {
             steps {
-                checkout scm
+                checkout scmGit(branches:[[name:'*main']],extansions:[],userRemoteConfigs:[[url:'https://github.com/batuxyilmaz/simpleApi']])
+                sh 'mvn clean install'
             }
         }
-
-        stage('Build') {
-            steps {
-                script {
-                    sh 'mvn clean install'
-                }
-            }
         }
 
         stage('Build Docker Image') {
@@ -27,21 +23,15 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: '	9a9402a7-a913-422d-a023-7d14bbe45009', passwordVariable: 'Desi1234$', usernameVariable: 'batuhan.yilmaz@desi.com.tr')]) {
-                        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    withCredentials([usernamePassword(credentialsId: 'docker_hub_id', passwordVariable: 'password_pass', usernameVariable: 'user_name')]) {
+                        sh 'docker login -u batuxyilmaz -p ${password_pass}'
                     }
-                    sh 'docker push simpleapi'
+                    sh 'docker push batuxyilmaz/simpleapi'
                 }
             }
         }
 
-        stage('Deploy') {
-            steps {
-                script {
-                    echo 'Building Docker Image'
-                    // Your deployment steps go here
-                }
-            }
+      
         }
     }
 }
